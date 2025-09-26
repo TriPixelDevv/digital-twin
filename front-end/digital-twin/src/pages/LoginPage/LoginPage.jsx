@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function LoginPage() {
   return <>
     <h1>Bem Vindo à página de Login</h1>
@@ -12,6 +14,6 @@ export default function LoginPage() {
             <input type="password" id="password" name="password" />
         </div>
     </form>
-    <p>Não possui uma conta? <a href="/register">Cadastre-se</a></p>
+    <p>Não possui uma conta? <Link to="/register">Cadastre-se</Link></p>
   </>;
 }
