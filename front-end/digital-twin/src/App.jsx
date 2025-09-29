@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginPage from './pages/LoginPage/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage/RegisterPage.jsx'
 import LandingPage from './pages/LandingPage/LandingPage.tsx'
+import DashBoard from './pages/DashBoard/DashBoard.tsx'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/landing-page" element={<LandingPage />} />
+        <Route path="/dashboard" element={<DashBoard />} />
       </Routes>
     </Router>
   )
