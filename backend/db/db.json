@@ -1,0 +1,70 @@
+{
+  "patients": [
+    {
+      "id": 1,
+      "name": "Maria Oliveira",
+      "age": 45,
+      "gender": "F",
+      "condition": "Hipertensão",
+      "digitalTwinId": "DT-001"
+    },
+    {
+      "id": 2,
+      "name": "João Silva",
+      "age": 60,
+      "gender": "M",
+      "condition": "Diabetes Tipo 2",
+      "digitalTwinId": "DT-002"
+    }
+  ],
+  "devices": [
+    {
+      "id": 1,
+      "type": "ECG Sensor",
+      "model": "CardioTrack v2",
+      "patientId": 1,
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "type": "Glicose Sensor",
+      "model": "GlucoSmart X",
+      "patientId": 2,
+      "status": "active"
+    }
+  ],
+  "vitals": [
+    {
+      "id": 1,
+      "patientId": 1,
+      "deviceId": 1,
+      "timestamp": "2025-09-28T10:00:00Z",
+      "heartRate": 82,
+      "bloodPressure": "135/85",
+      "oxygenSaturation": 96
+    },
+    {
+      "id": 2,
+      "patientId": 2,
+      "deviceId": 2,
+      "timestamp": "2025-09-28T10:05:00Z",
+      "glucoseLevel": 142
+    }
+  ],
+  "simulations": [
+    {
+      "id": 1,
+      "patientId": 1,
+      "scenario": "Crise hipertensiva simulada",
+      "predictedOutcome": "Risco moderado",
+      "recommendation": "Ajustar medicação e monitorar pressão"
+    },
+    {
+      "id": 2,
+      "patientId": 2,
+      "scenario": "Aumento de glicemia após refeição",
+      "predictedOutcome": "Risco baixo",
+      "recommendation": "Verificar dieta e aplicar insulina se necessário"
+    }
+  ]
+}
