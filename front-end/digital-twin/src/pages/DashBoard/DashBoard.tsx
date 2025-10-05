@@ -10,8 +10,8 @@ export default function DashBoard() {
     { nome: "Frequência Cardíaca", valor: "72 bpm", risco: "Baixo" },
     { nome: "Nível de Colesterol", valor: "190 mg/dL", risco: "Alto" },
     { nome: "Índice de Massa Corporal (IMC)", valor: "24.5", risco: "Baixo" },
-    { nome: "Glicemia em Jejum", valor: "95 mg/dL", risco: "Baixo" },
-    { nome: "Nível de Stresse", valor: "Moderado", risco: "Medio" },
+    { nome: "Glicemia em Jejum", valor: "95 mg/dL", risco: "Medio" },
+    { nome: "Nível de Stresse", valor: "Moderado", risco: "Baixo" },
   ];
 
   const getRiskClassName = (risco: string) => {

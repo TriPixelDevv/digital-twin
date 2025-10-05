@@ -13,7 +13,7 @@ export default function LandingPage() {
     <>
       <div className="lp-container">
         <nav><li><a href="/login">Sair da Sistema</a></li></nav>
-        
+
         <header className="lp-header">
           <h1>Bem vindo, {paciente.nome}</h1>
           <p>Seu Painel de Acompanhamento de Saúde e Prevenção de Riscos</p>
@@ -25,7 +25,7 @@ export default function LandingPage() {
             <p><strong>Gênero:</strong> {paciente.genero}</p>
             <p>
                 <strong>Risco Geral Estimado: </strong>
-                <span className={`status-indicator ${riskClassName}`}>{paciente.riscoGeral}</span>
+                <span>{paciente.riscoGeral}</span>
             </p>
             <p><strong>Última Atualização dos Dados:</strong> {paciente.ultimaConsulta}</p>
         </section>
