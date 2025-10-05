@@ -1,6 +1,7 @@
 @import url('./styles/_usuario.css');
 @import url('./styles/_landingpage.css');
 @import url('./styles/_dashborad.css');
+@import url('./styles/_utilidades.css');
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
