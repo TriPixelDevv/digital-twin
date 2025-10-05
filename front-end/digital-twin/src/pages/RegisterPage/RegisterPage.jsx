@@ -9,21 +9,21 @@ export default function RegisterPage() {
   }
 
   return <>
-  <div className="register-container">
+  <div className="usuario-container">
     <h1>Cadastro</h1>
-    <div className="register-block">
+    <div className="block">
       <p>Preencha os campos para criar uma nova conta</p>
-      <form onSubmit={handleRegister}>
+      <form  className='campos' onSubmit={handleRegister}>
           <div>
-              <label htmlFor="username">Usuário:</label>
+              <label htmlFor="username">Usuário</label>
               <input type="text" id="username" name="username" />
           </div>
           <div>
-              <label htmlFor="email">Email:</label>
+              <label htmlFor="email">Email</label>
               <input type="email" id="email" name="email" />
           </div>
           <div>
-              <label htmlFor="password">Senha:</label>
+              <label htmlFor="password">Senha</label>
               <input type="password" id="password" name="password" />
           </div>
           <button type="submit">Registrar</button>

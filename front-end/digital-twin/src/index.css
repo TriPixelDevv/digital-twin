@@ -1,5 +1,6 @@
-@import url('./styles/_login.css');
-@import url('./styles/_register.css');
+@import url('./styles/_usuario.css');
+@import url('./styles/_landingpage.css');
+@import url('./styles/_dashborad.css');
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
