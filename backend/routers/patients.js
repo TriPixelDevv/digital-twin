@@ -1,70 +1,75 @@
 import express from "express";
-import cors from "cors";
 import fs from "fs";
 import path from "path";
+import Patient from "../models/Patient.js";
 
-// Importando models
-import Patient from "./models/Patient.js";
+const router = express.Router();
 
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-app.use(cors());
-app.use(express.json());
-
-// Caminho do banco JSON (mock)
+// Caminho do banco JSON
 const dbPath = path.resolve("./db.json");
 
-// Função auxiliar para ler o arquivo
+// Funções auxiliares
 function loadDB() {
-    const rawData = fs.readFileSync(dbPath, "utf-8");
-    return JSON.parse(rawData);
+  const rawData = fs.readFileSync(dbPath, "utf-8");
+  return JSON.parse(rawData);
 }
 
-// Função auxiliar para salvar no JSON
-function saveDB() {
-    fs.writeFileSync(
-        dbPath,
-        JSON.stringify({ patients, devices, vitals, simulations }, null, 2)
-    );
+function saveDB(db) {
+  fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
 }
 
-// Carregando dados do db.json
-const db = loadDB();
-let patients = db.patients || [];
-
-
-// Rota POST
-app.post("/patients", (req, res) => {
-    const newPatient = new Patient({
-        id: patients.length + 1,
-        ...req.body,
-    });
-    patients.push(newPatient);
-    saveDB();
-    res.status(201).json(newPatient);
+// Rotas de pacientes
+router.get("/", (req, res) => {
+  const db = loadDB();
+  res.json(db.patients || []);
 });
 
-// Rota GET
-app.get("/patients", (req, res) => res.json(patients));
+router.post("/", (req, res) => {
+  const db = loadDB();
+  const patients = db.patients || [];
 
-// Rota PUT
-app.put("/patients/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const index = patients.findIndex((p) => p.id === id);
-    if (index === -1) return res.status(404).json({ error: "Patient not found" });
+  const newPatient = new Patient({
+    id: patients.length + 1,
+    ...req.body,
+  });
 
-    const updated = new Patient({ ...patients[index], ...req.body });
-    patients[index] = updated;
-    saveDB();
-    res.json(updated);
+  patients.push(newPatient);
+  db.patients = patients;
+  saveDB(db);
+
+  res.status(201).json(newPatient);
 });
 
-// Delete 
-app.delete("/patients/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    patients = patients.filter((p) => p.id !== id);
-    saveDB();
-    res.status(204).send();
+router.put("/:id", (req, res) => {
+  const db = loadDB();
+  const patients = db.patients || [];
+  const id = parseInt(req.params.id);
+
+  const index = patients.findIndex((p) => p.id === id);
+  if (index === -1) return res.status(404).json({ error: "Patient not found" });
+
+  patients[index] = new Patient({ ...patients[index], ...req.body });
+  db.patients = patients;
+  saveDB(db);
+
+  res.json(patients[index]);
 });
+
+router.delete("/:id", (req, res) => {
+  const db = loadDB();
+  let patients = db.patients || [];
+  const id = parseInt(req.params.id);
+
+  const beforeCount = patients.length;
+  patients = patients.filter((p) => p.id !== id);
+
+  if (patients.length === beforeCount) {
+    return res.status(404).json({ error: "Patient not found" });
+  }
+
+  db.patients = patients;
+  saveDB(db);
+  res.status(204).send();
+});
+
+export default router;

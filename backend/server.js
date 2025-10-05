@@ -1,12 +1,9 @@
 import express from "express";
 import cors from "cors";
-import fs from "fs";
-import path from "path";
-
-// Importando models
-import Device from "./models/Device.js";
-import Vital from "./models/Vital.js";
-
+import patientsRouter from "./routes/patients.js";
+import devicesRouter from "./routes/devices.js";
+import vitalsRouter from "./routes/vitals.js";
+import simulationRoutes from "./routes/simulations.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,36 +11,15 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Caminho do banco JSON (mock)
-const dbPath = path.resolve("./db.json");
-
-// Função auxiliar para ler o arquivo
-function loadDB() {
-  const rawData = fs.readFileSync(dbPath, "utf-8");
-  return JSON.parse(rawData);
-}
-
-// Função auxiliar para salvar no JSON
-function saveDB() {
-  fs.writeFileSync(
-    dbPath,
-    JSON.stringify({ patients, devices, vitals, simulations }, null, 2)
-  );
-}
-
-// Carregando dados do db.json
-const db = loadDB();
-let patients = db.patients || [];
-let devices = db.devices || [];
-let vitals = db.vitals || [];
-let simulations = db.simulations || [];
-
-// ====================== ROTAS ======================
-
-// Rota inicial
+// Rota raiz
 app.get("/", (req, res) => res.send("API is running..."));
 
+// Usa o router de pacientes
+app.use("/patients", patientsRouter);
+app.use("/devices", devicesRouter);
+app.use("/devices", devicesRouter);
+app.use("/vitals", vitalsRouter);
+app.use("/simulations", simulationRoutes);
 
-
-// ====================== Iniciando o server ======================
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+// Inicia o servidor
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

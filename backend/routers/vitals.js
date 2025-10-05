@@ -1,70 +1,79 @@
 import express from "express";
-import cors from "cors";
 import fs from "fs";
 import path from "path";
+import Vital from "../models/Vital.js";
 
-// Importando models
-import Vital from "./models/Vital.js";
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-app.use(cors());
-app.use(express.json());
+const router = express.Router();
 
 // Caminho do banco JSON (mock)
 const dbPath = path.resolve("./db.json");
 
 // Função auxiliar para ler o arquivo
 function loadDB() {
-    const rawData = fs.readFileSync(dbPath, "utf-8");
-    return JSON.parse(rawData);
+  const rawData = fs.readFileSync(dbPath, "utf-8");
+  return JSON.parse(rawData);
 }
 
 // Função auxiliar para salvar no JSON
-function saveDB() {
-    fs.writeFileSync(
-        dbPath,
-        JSON.stringify({ patients, devices, vitals, simulations }, null, 2)
-    );
+function saveDB(db) {
+  fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
 }
 
-// Carregando dados do db.json
-const db = loadDB();
-let vitals = db.vitals || [];
-
-// Rota GET 
-app.get("/vitals", (req, res) => res.json(vitals));
-
-// Rota POST
-
-app.post("/vitals", (req, res) => {
-    const newVital = new Vital({
-        id: vitals.length + 1,
-        ...req.body,
-    });
-    vitals.push(newVital);
-    saveDB();
-    res.status(201).json(newVital);
+// ====================== GET ======================
+router.get("/", (req, res) => {
+  const db = loadDB();
+  res.json(db.vitals || []);
 });
 
+// ====================== POST ======================
+router.post("/", (req, res) => {
+  const db = loadDB();
+  const vitals = db.vitals || [];
 
-// Rota PUT
-app.put("/vitals/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const index = vitals.findIndex((v) => v.id === id);
-    if (index === -1) return res.status(404).json({ error: "Vital not found" });
+  const newVital = new Vital({
+    id: vitals.length + 1,
+    ...req.body,
+  });
 
-    const updated = new Vital({ ...vitals[index], ...req.body });
-    vitals[index] = updated;
-    saveDB();
-    res.json(updated);
+  vitals.push(newVital);
+  db.vitals = vitals;
+  saveDB(db);
+
+  res.status(201).json(newVital);
 });
 
-// Rota DELETE
-app.delete("/vitals/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    vitals = vitals.filter((v) => v.id !== id);
-    saveDB();
-    res.status(204).send();
+// ====================== PUT ======================
+router.put("/:id", (req, res) => {
+  const db = loadDB();
+  const vitals = db.vitals || [];
+  const id = parseInt(req.params.id);
+
+  const index = vitals.findIndex((v) => v.id === id);
+  if (index === -1) return res.status(404).json({ error: "Vital not found" });
+
+  vitals[index] = new Vital({ ...vitals[index], ...req.body });
+  db.vitals = vitals;
+  saveDB(db);
+
+  res.json(vitals[index]);
 });
+
+// ====================== DELETE ======================
+router.delete("/:id", (req, res) => {
+  const db = loadDB();
+  let vitals = db.vitals || [];
+  const id = parseInt(req.params.id);
+
+  const beforeCount = vitals.length;
+  vitals = vitals.filter((v) => v.id !== id);
+
+  if (vitals.length === beforeCount) {
+    return res.status(404).json({ error: "Vital not found" });
+  }
+
+  db.vitals = vitals;
+  saveDB(db);
+  res.status(204).send();
+});
+
+export default router;
