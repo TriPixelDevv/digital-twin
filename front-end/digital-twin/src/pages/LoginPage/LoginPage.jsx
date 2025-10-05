@@ -10,7 +10,7 @@ export default function LoginPage() {
   return (
     <>
       <div className="login-container">
-        <h1>Bem Vindo à página de Login</h1>
+        <h1>Bem-Vindo!</h1>
         <div className="login-block">
           <p>Preencha os campos para realizar o login</p>
           <form className='campos' onSubmit={handleLogin}>
