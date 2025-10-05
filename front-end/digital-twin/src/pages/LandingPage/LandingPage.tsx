@@ -1,6 +1,6 @@
 export default function LandingPage() {
     return <>
-        <nav><li><a href="/register">Sair da conta</a></li></nav>
+        <nav><li><a href="/login">Sair da conta</a></li></nav>
         <h1>Bem Vindo Ao Digital Twin do seu Carro!</h1>
         <p>Nome do Carro: Toyota</p>
         <p>Modelo: Corolla</p>
