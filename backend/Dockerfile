@@ -1,13 +1,13 @@
 FROM node:24-alpine
 
 # diretório de trabalho dentro do container
-WORKDIR /app
+WORKDIR /digital-twin
 
 # copiar package.json e lockfile primeiro (melhor para cache)
 COPY package.json pnpm-lock.yaml ./
 
 # instalar dependências
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+RUN npm install
 
 # copiar o restante do projeto
 COPY . .
