@@ -3,7 +3,7 @@ export default class Device {
     this.id = id;
     this.type = type;
     this.model = model;
-    this.patientId = patientId; // FK para Patient
-    this.status = status;       // ex: active, inactive
+    this.patientId = patientId; 
+    this.status = status;       
   }
 }
